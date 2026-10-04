@@ -1,0 +1,66 @@
+{
+  "name": "A2Z | إدارة المنصات الرقمية وصناعة الصورة الذهنية",
+  "short_name": "A2Z Media",
+  "description": "إدارة المنصات الرقمية وفق منهجية ترتكز على بناء الحضور وتعزيز التفاعل عبر محتوى وتواصل يعكسان هوية الجهة ويسهمان في تعزيز الصورة الذهنية بشكل أكثر رسوخاً.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080811",
+  "theme_color": "#4141af",
+  "orientation": "any",
+  "dir": "rtl",
+  "lang": "ar-SA",
+  "icons": [
+    {
+      "src": "./favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "business",
+    "productivity",
+    "utilities",
+    "marketing"
+  ],
+  "shortcuts": [
+    {
+      "name": "محاكي الأثر الرقمي",
+      "short_name": "المحاكي",
+      "description": "احسب مؤشر اتساق الهوية والتفاعل المتوقع",
+      "url": "./index.html#simulator",
+      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "منهجية العمل الرباعية",
+      "short_name": "المنهجية",
+      "description": "استكشف منهجية A2Z لبناء الحضور وتعزيز التفاعل",
+      "url": "./index.html#methodology",
+      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "احجز استشارة استراتيجية",
+      "short_name": "استشارة",
+      "description": "تواصل مع مستشاري الإعلام الاقتصادي",
+      "url": "./index.html#contact",
+      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+﻿{
+  "NAV": {
+  "HOME": "Home",
+  "IMPACT": "How We Create Impact",
+  "WORKS": "Our Work",
+  "ABOUT": "About Us",
+  "VISION": "Our Vision",
+  "CONTACT": "Contact Us"
+},
+
+  "HERO": {
+    "SUB": "Integrated Media Agency",
+    "TITLE1": "Economic",
+    "TITLE2": "Media Solutions",
+    "DESC": "We provide integrated media and economic solutions that help organizations and individuals achieve their communication goals with the highest level of professionalism.",
+    "BTN1": "Discover Our Services",
+    "BTN2": "Start creating your impact"
+  },
+
+  "CLIENTS": {
+  "TITLE": "Our Clients",
+  "SUBTITLE": "Trusted by leading brands and companies"
+},
+"CLIENTS_STATS": {
+  "CLIENTS": "Clients",
+  "PROJECTS": "Projects",
+  "COUNTRIES": "Countries"
+},
+
+  "Impact": {
+    "TITLE": "How to create an impact",
+    "DESC": "Carefully crafted media and communications solutions to enhance presence and shape public image for long-term impact"
+  },
+
+  "SERVICES": {
+  "TITLE": "Our Services",
+  "SUB": "Discover What We Do",
+
+  "CARD3_TITLE": "Branding",
+  "CARD3_DESC": "We build a mental image that reflects the organization’s value and ambitions by understanding the market and audience, crafting a presence that leaves the right impression and gives the brand greater clarity and impact.",
+
+  "CARD2_TITLE": "Public Opinion Shaping & Preparation",
+  "CARD2_DESC": "We develop communication strategies that help organizations prepare public opinion and build conviction before launching initiatives and campaigns, ensuring messages are delivered with greater impact and acceptance.",
+
+  "CARD1_TITLE": "Media Center Management & Operations",
+  "CARD1_DESC": "We establish and develop integrated media centers that support faster communication and more effective message management, while providing professional teams and operational methodologies that ensure stronger and more sustainable media presence.",
+
+  "CARD4_TITLE": "Social Media Management",
+  "CARD4_DESC": "We manage digital platforms through a strategic approach focused on strengthening presence and boosting engagement, using content and communication that reflect the organization’s identity and create a more consistent brand image.",
+
+  "CARD5_TITLE": "Economic Content Creation",
+  "CARD5_DESC": "We deliver professional media and economic content that transforms complex messages into clear and impactful communication, while maintaining accuracy, strong presentation, and relevance to the target audience.",
+
+  "CARD6_TITLE": "Brand Enhancement",
+  "CARD6_DESC": "We reshape the brand experience in a way that strengthens its market presence and creates a deeper connection with audiences through identity and communication that reflect its true value.",
+
+  "CARD7_TITLE": "Press Conference Organization",
+  "CARD7_DESC": "We professionally manage press conferences and media events to ensure message clarity, high-quality coverage, and stronger visibility for the organization among media and audiences.",
+
+  "CARD8_TITLE": "Corporate Media Identity Design & Management",
+  "CARD8_DESC": "We develop consistent media identities that strengthen organizations’ presence among their audiences and partners, ensuring clear messaging and a cohesive visual and communication experience.",
+
+  "CARD9_TITLE": "Marketing Campaigns",
+  "CARD9_DESC": "We design communication campaigns based on a deep understanding of the market and audience, aiming to maximize reach, build influence, and achieve results aligned with the organization’s goals and public image.",
+
+  "CARD10_TITLE": "Call Center Establishment & Operations",
+  "CARD10_DESC": "We build integrated call centers that help organizations manage customer communication more efficiently, while enhancing follow-up quality and customer experience through professional communication teams."
+},
+
+  "Impact Different": {
+    "TITLE": "What makes our impact different?",
+    "DESC": "We build communication and media strategies that are linked to real impact, not just appearances"
+  },
+
+  "ADVANTAGES": {
+  "TITLE": "What do we build behind every successful presence?",
+  "SUB": "We help organizations and brands build a media presence that enhances trust, clarifies the message, and creates long-term impact.",
+
+  "CARD1_TITLE": "A presence that builds trust",
+  "CARD1_DESC": "We create a mental image that reflects the value of the organization and strengthens its position in front of its audience.",
+
+  "CARD2_TITLE": "Clearer messages",
+  "CARD2_DESC": "We develop a communication language that makes the message stronger, more understandable, and more impactful.",
+
+  "CARD3_TITLE": "Impact beyond visibility",
+  "CARD3_DESC": "We don’t focus only on reach, but on creating a lasting impression.",
+
+  "CARD4_TITLE": "Content that reflects professionalism",
+  "CARD4_DESC": "We turn ideas into media experiences that support institutional presence.",
+
+  "CARD5_TITLE": "A scalable presence",
+  "CARD5_DESC": "We build strategies that help organizations expand with consistency and clarity."
+},
+
+  "PROCESS": {
+  "TITLE": "How We Build Impact",
+  "SUB": "We work through a methodology that starts with understanding the organization and ends with a stronger, more influential media presence in the market.",
+
+  "STEP1_TITLE": "Understanding the organization and market",
+  "STEP1_DESC": "We study the organization's identity, how it appears, and its relationship with its audience to identify real opportunities for impact.",
+
+  "STEP2_TITLE": "Building image and message",
+  "STEP2_DESC": "We develop a communication strategy that reflects the organization's value and strengthens its brand perception.",
+
+  "STEP3_TITLE": "Managing media presence",
+  "STEP3_DESC": "We turn the strategy into content and media experiences that enhance trust and public perception.",
+
+  "STEP4_TITLE": "Measuring impact and improvement",
+  "STEP4_DESC": "We monitor performance and continuously improve the presence to ensure clearer and more sustainable impact."
+},
+
+  "SKILLS": {
+    "TITLE": "Our Skills",
+    "SUB": "Expertise across multiple fields",
+
+    "CARD1_TITLE": "Brand Strategy",
+    "CARD1_DESC": "Developing and positioning brands strategically",
+
+    "CARD2_TITLE": "Digital Marketing",
+    "CARD2_DESC": "Comprehensive digital marketing strategies and execution",
+
+    "CARD3_TITLE": "Video Production",
+    "CARD3_DESC": "Professional video production for all content types",
+
+    "CARD4_TITLE": "Content Creation",
+    "CARD4_DESC": "Engaging content across all platforms",
+
+    "CARD5_TITLE": "Creative Design",
+    "CARD5_DESC": "Outstanding visual design and unique branding",
+
+    "CARD6_TITLE": "Public Relations",
+    "CARD6_DESC": "Specialized media and public relations services"
+  },
+  "CONTACT": {
+    "TITLE": "Start creating your impact",
+    "SUB": "We are here to help you",
+
+    "ADDRESS": "Riyadh - King Fahd District - Al Olaya",
+    "NAME": "Full Name",
+    "EMAIL": "Email Address",
+    "SUBJECT": "Subject",
+    "MESSAGE": "Your Message...",
+    "BTN": "Send Message"
+  },
+  "FOOTER": {
+  "DESC": "A2Z Media, Production & Strategic Communication provides integrated media and marketing solutions that help companies build a strong presence and achieve real impact.",
+
+  "QUICK_LINKS": "Quick Links",
+  "PORTFOLIO": "Portfolio",
+
+  "SERVICES_TITLE": "Our Services",
+  "SERVICE1": "Media & Production",
+  "SERVICE2": "Digital Marketing",
+  "SERVICE3": "Public Relations",
+  "SERVICE4": "Creative Design",
+
+  "FOLLOW_US": "Follow Us",
+  "SOCIAL_DESC": "Follow our latest work and updates on social media.",
+
+  "COPYRIGHT": "© 2026 A2Z Media, Production & Strategic Communication. All rights reserved."
+},
+  "SERVICES_DETAILS": {
+    "PUBLIC_OPINION": {
+      "TITLE": "Public Opinion Shaping & Preparation",
+      "DESC": "Many organizations launch marketing campaigns for a decision or service before understanding public reaction. If reactions are negative, they often need multiple corrective campaigns afterward. Therefore, preparing the audience before launching any decision or service is essential. Some organizations also require additional approvals from decision-makers, and presenting it as public opinion helps achieve their goals successfully."
+    },
+
+    "BRAND_UPGRADE": {
+      "TITLE": "Brand Elevation",
+      "DESC": "We believe a brand is a complete experience built in the audience’s perception over time. This service moves your brand from market presence to a strong influential position. We start by analyzing identity, audience, and competition, then develop clear messaging and storytelling that builds trust and belonging."
+    },
+
+    "WEBSITE_DEV": {
+      "TITLE": "Website Development Services",
+      "DESC": "We build high-quality professional websites including corporate sites and e-commerce platforms with complete UI/UX experience. We focus on speed, usability, and clean design to ensure the best user experience."
+    },
+
+    "PRINT_PACKAGING": {
+      "TITLE": "Premium Printing & Packaging Solutions",
+      "DESC": "We don’t just print — we create a premium identity around your product. We combine global printing technologies with innovative packaging solutions using carefully selected materials for durability and luxury finishing."
+    },
+
+    "LIVE_EVENTS": {
+      "TITLE": "Live Event Streaming Services",
+      "DESC": "We provide professional live streaming of events across social media platforms and television when required. This allows real-time audience engagement with high-quality video and audio broadcasting."
+    },
+
+    "MEDIA_CENTERS": {
+      "TITLE": "Media Center Management & Operations",
+      "DESC": "We establish and develop media centers from scratch or improve existing ones. We also manage customer service centers to ensure high performance, efficiency, and customer satisfaction."
+    },
+
+    "MEDIA_COVERAGE": {
+      "TITLE": "High-Level Media Coverage",
+      "DESC": "We provide extensive media coverage for events, conferences, and forums through a strong network of media relations ensuring clear and impactful messaging to the target audience."
+    },
+
+    "SOCIAL_MEDIA": {
+      "TITLE": "Social Media Management",
+      "DESC": "We manage social media platforms professionally to enhance engagement, build trust, and analyze audience reactions in real time for better marketing strategies."
+    },
+
+    "REPUTATION": {
+      "TITLE": "Reputation & Image Enhancement",
+      "DESC": "We help organizations improve public perception and correct misconceptions through strategic reputation management campaigns that build trust and credibility."
+    },
+
+    "PR": {
+      "TITLE": "Media Relations",
+      "DESC": "Our professional media team ensures your events receive strong coverage through strategic communication and media coordination to maximize audience reach."
+    },
+
+    "SPONSORSHIP": {
+      "TITLE": "Sponsorship & Event Specialists",
+      "DESC": "We transform sponsorships into interactive brand experiences by integrating sponsors into event identity and creating real return on investment."
+    },
+
+    "PERSONAL_BRANDING": {
+      "TITLE": "Personal Branding",
+      "DESC": "We build personal identity and manage media presence across social and traditional platforms to achieve professional and public goals."
+    },
+
+    "ECONOMIC_CONTENT": {
+      "TITLE": "Economic Content Writing",
+      "DESC": "We create specialized economic media content that aligns organizations’ public image with their real economic nature."
+    },
+
+    "MARKETING": {
+      "TITLE": "Marketing Campaigns",
+      "DESC": "We design and manage data-driven marketing campaigns across digital and traditional media to deliver measurable results."
+    },
+
+    "IDENTITY": {
+      "TITLE": "Corporate Media Identity Design & Management",
+      "DESC": "We build unified media identities that reflect the organization’s mission, values, and presence across all platforms."
+    },
+
+    "SOFTWARE": {
+      "TITLE": "Software Engineering",
+      "DESC": "We develop custom software solutions including websites, e-commerce systems, and internal platforms using modern technologies ensuring performance and security."
+    }
+  },
+
+  "WORKS": {
+    "TITLE": "Our Works",
+    "DESC": ""
+  }
+
+}
