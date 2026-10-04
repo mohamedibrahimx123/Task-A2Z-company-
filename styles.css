@@ -316,19 +316,22 @@ body[dir="ltr"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
+  flex-wrap: nowrap;
 }
 
 .brand-logo-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
   color: var(--c-text-primary);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .brand-logo-img {
-  height: 44px;
+  height: 38px;
   width: auto;
   object-fit: contain;
   transition: transform var(--trans-normal);
@@ -341,30 +344,36 @@ body[dir="ltr"] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  padding: 3px 10px;
+  padding: 3px 8px;
   border-radius: var(--r-pill);
   background: rgba(14, 165, 201, 0.12);
   border: 1px solid rgba(14, 165, 201, 0.3);
   color: var(--brand-secondary);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 28px;
+  gap: 18px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-link {
   text-decoration: none;
   color: var(--c-text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 600;
   position: relative;
   padding: 6px 2px;
+  white-space: nowrap;
   transition: color var(--trans-fast);
 }
 
@@ -392,13 +401,15 @@ body[dir="ltr"] {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 /* Control Buttons (Theme, Lang, Audio, PWA Install) */
 .btn-icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--r-md);
   border: 1px solid var(--c-border);
   background: var(--c-surface-card);
@@ -409,6 +420,7 @@ body[dir="ltr"] {
   cursor: pointer;
   transition: all var(--trans-fast);
   backdrop-filter: blur(8px);
+  flex-shrink: 0;
 }
 .btn-icon:hover {
   background: var(--c-surface-hover);
@@ -421,15 +433,17 @@ body[dir="ltr"] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  padding: 8px 14px;
+  padding: 7px 12px;
   border-radius: var(--r-md);
   border: 1px solid var(--c-border);
   background: var(--c-surface-card);
   color: var(--c-text-primary);
   cursor: pointer;
   transition: all var(--trans-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .btn-lang-toggle:hover {
   border-color: var(--brand-secondary);
@@ -440,14 +454,16 @@ body[dir="ltr"] {
 .btn-install-app {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 7px;
+  padding: 7px 14px;
   border-radius: var(--r-pill);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 700;
   background: linear-gradient(135deg, rgba(65, 65, 175, 0.9), rgba(14, 165, 201, 0.9));
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
   cursor: pointer;
   transition: all var(--trans-normal);
   box-shadow: 0 4px 14px rgba(14, 165, 201, 0.3);
@@ -537,11 +553,11 @@ body[dir="ltr"] {
 }
 
 .hero-title {
-  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
-  font-weight: 900;
-  line-height: 1.25;
-  margin-bottom: 24px;
-  letter-spacing: -0.5px;
+  font-size: clamp(1.75rem, 3.1vw, 2.55rem);
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 20px;
+  letter-spacing: -0.3px;
 }
 
 .text-gradient {
@@ -561,23 +577,23 @@ body[dir="ltr"] {
 /* Strategic Mission Statement Highlight */
 .strategic-statement-card {
   position: relative;
-  padding: 22px 26px;
-  border-radius: var(--r-lg);
+  padding: 16px 20px;
+  border-radius: var(--r-md);
   background: var(--c-surface-card);
   border: 1px solid var(--c-border);
   backdrop-filter: blur(16px);
-  margin-bottom: 36px;
+  margin-bottom: 28px;
   box-shadow: var(--shadow-sm);
-  border-right: 4px solid var(--brand-secondary);
+  border-right: 3px solid var(--brand-secondary);
 }
 [dir="ltr"] .strategic-statement-card {
   border-right: 1px solid var(--c-border);
-  border-left: 4px solid var(--brand-secondary);
+  border-left: 3px solid var(--brand-secondary);
 }
 
 .statement-text {
-  font-size: 1.15rem;
-  line-height: 1.8;
+  font-size: 0.96rem;
+  line-height: 1.75;
   color: var(--c-text-primary);
   font-weight: 500;
 }
@@ -585,31 +601,31 @@ body[dir="ltr"] {
 .statement-tag {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  font-size: 0.78rem;
+  gap: 7px;
+  margin-bottom: 6px;
+  font-size: 0.74rem;
   font-weight: 800;
   text-transform: uppercase;
   color: var(--brand-secondary);
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
 }
 
 .hero-cta-group {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 48px;
+  gap: 12px;
+  margin-bottom: 36px;
 }
 
 /* Primary Glow Button */
 .btn-primary-glow {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 32px;
+  gap: 10px;
+  padding: 13px 26px;
   border-radius: var(--r-pill);
-  font-size: 1.05rem;
+  font-size: 0.94rem;
   font-weight: 700;
   background: var(--grad-brand);
   color: #ffffff;
@@ -627,10 +643,10 @@ body[dir="ltr"] {
 .btn-secondary-glass {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 28px;
+  gap: 8px;
+  padding: 13px 22px;
   border-radius: var(--r-pill);
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 700;
   background: var(--c-surface-card);
   color: var(--c-text-primary);
@@ -1824,6 +1840,22 @@ textarea.input-control {
 /* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
+@media (max-width: 1200px) and (min-width: 860px) {
+  .nav-menu {
+    gap: 12px;
+  }
+  .nav-link {
+    font-size: 0.82rem;
+  }
+  .brand-badge {
+    display: none;
+  }
+  .btn-install-app {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -1834,7 +1866,7 @@ textarea.input-control {
   }
   .hero-visual-stage {
     order: 2;
-    height: 480px;
+    height: 440px;
   }
   .hero-cta-group {
     justify-content: center;
@@ -1859,7 +1891,7 @@ textarea.input-control {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .nav-menu {
     display: none;
   }
@@ -1873,7 +1905,7 @@ textarea.input-control {
     padding-bottom: 70px;
   }
   .hero-title {
-    font-size: 2.1rem;
+    font-size: 1.85rem;
   }
   .footer-grid {
     grid-template-columns: 1fr;
