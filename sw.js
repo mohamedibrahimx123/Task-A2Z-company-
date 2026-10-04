@@ -1,6 +1,6 @@
-// Service Worker for A2Z Media Progressive Web App
-const CACHE_NAME = 'a2z-media-cache-v1.0.0';
-const ASSETS_TO_CACHE = [
+// Service Worker for A2Z Media Progressive Web App - Version 3.0.0
+const CACHE_NAME = 'a2z-media-cache-v3.0.0';
+const STATIC_ASSETS = [
   './',
   './index.html',
   './styles.css',
@@ -16,26 +16,25 @@ const ASSETS_TO_CACHE = [
   './assets/images/social-media-2.png'
 ];
 
-// Install Event
+// Install: Pre-cache core assets & activate immediately
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[ServiceWorker] Pre-caching offline pages & assets');
-      return cache.addAll(ASSETS_TO_CACHE).catch((err) => {
-        console.warn('[ServiceWorker] Some pre-cache assets could not be fetched:', err);
+      return cache.addAll(STATIC_ASSETS).catch((err) => {
+        console.warn('[PWA] Cache pre-fetch warning:', err);
       });
     }).then(() => self.skipWaiting())
   );
 });
 
-// Activate Event (Cleanup Old Caches)
+// Activate: Delete all previous caches to prevent stale mobile cache bugs
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log('[ServiceWorker] Removing old cache', key);
+            console.log('[PWA] Removing outdated cache:', key);
             return caches.delete(key);
           }
         })
@@ -44,31 +43,25 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Event (Stale-While-Revalidate with Network Fallback)
+// Fetch Strategy: Network-First for HTML/JS/CSS (always freshest updates) with Cache Fallback for offline
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests and http/https schemes
   if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
     return;
   }
 
-  // Handle external CDN assets (Three.js, Lucide, Google Fonts) with Cache-First or Stale-While-Revalidate
+  // Handle external CDN assets (Fonts, FontAwesome, Three.js) Cache-First
   const isCdn = event.request.url.includes('cdnjs.cloudflare.com') ||
-                event.request.url.includes('unpkg.com') ||
                 event.request.url.includes('fonts.googleapis.com') ||
                 event.request.url.includes('fonts.gstatic.com');
 
   if (isCdn) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
+        if (cachedResponse) return cachedResponse;
         return fetch(event.request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseClone);
-            });
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
           }
           return networkResponse;
         }).catch(() => cachedResponse);
@@ -77,28 +70,28 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Internal assets: Stale While Revalidate
+  // App core files: Network-First to guarantee latest code on mobile devices
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
+    fetch(event.request)
+      .then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseClone);
-          });
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         }
         return networkResponse;
-      }).catch((err) => {
-        console.log('[ServiceWorker] Network fetch failed, returning cached version if available');
-        return cachedResponse;
-      });
-
-      return cachedResponse || fetchPromise;
-    })
+      })
+      .catch(() => {
+        // Fallback to offline cached files
+        return caches.match(event.request).then((cached) => {
+          if (cached) return cached;
+          if (event.request.destination === 'document') {
+            return caches.match('./index.html');
+          }
+        });
+      })
   );
 });
 
-// Listen for messages from client
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();

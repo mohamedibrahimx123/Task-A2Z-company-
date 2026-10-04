@@ -1,6 +1,6 @@
 /**
  * A2Z Media - High-End Digital Experience Engine
- * Three.js 3D WebGL Visualization, 3D Gyro Tilt, PWA Integration, Bilingual Engine
+ * Ultra-Fast Mobile Rendering, Universal Touch & Click Handlers, Three.js 3D WebGL, PWA Integration, Bilingual Engine
  */
 
 (function () {
@@ -110,7 +110,7 @@
       dock_contact: "تواصل",
       
       pwa_modal_title: "تثبيت تطبيق A2Z Media",
-      pwa_modal_desc: "احصل على وصول فوري ومباشر إلى محاكي الأثر، دراسات الحالة، واستشارات الإعلام الاقتصادي كتطبيق مستقل على جهازك.",
+      pwa_modal_desc: "احصل على وصول فوري ومباشر إلى محاكي الأثر، دراسات الحالة، واستشارات الإعلام الاقتصادي كتطبيق مستقل على جهازك بدون الحاجة للمتصفح.",
       pwa_modal_btn: "تثبيت الآن",
       pwa_modal_cancel: "لاحقاً"
     },
@@ -213,7 +213,7 @@
     }
   };
 
-  // Mockup Data for Platforms
+  // Platform Mockups Content
   const PlatformMockups = {
     x: {
       ar: {
@@ -281,17 +281,18 @@
     }
   };
 
-  // Sound Synthesizer via Web Audio API (No External Audio Files Needed)
+  // Safe UI Sound Synthesizer (Zero blocking on mobile)
   function playUiSound(type = 'click') {
     if (!AppState.soundEnabled) return;
     try {
       if (!AppState.audioCtx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
-        AppState.audioCtx = new AudioContext();
+        if (AudioContext) AppState.audioCtx = new AudioContext();
       }
-      if (AppState.audioCtx.state === 'suspended') {
-        AppState.audioCtx.resume();
+      if (AppState.audioCtx && AppState.audioCtx.state === 'suspended') {
+        AppState.audioCtx.resume().catch(() => {});
       }
+      if (!AppState.audioCtx) return;
 
       const ctx = AppState.audioCtx;
       const osc = ctx.createOscillator();
@@ -304,35 +305,35 @@
         osc.type = 'sine';
         osc.frequency.setValueAtTime(600, now);
         osc.frequency.exponentialRampToValueAtTime(1200, now + 0.04);
-        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.setValueAtTime(0.06, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
         osc.start(now);
         osc.stop(now + 0.05);
       } else if (type === 'swoosh') {
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(240, now);
-        osc.frequency.exponentialRampToValueAtTime(580, now + 0.12);
-        gain.gain.setValueAtTime(0.06, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.frequency.exponentialRampToValueAtTime(580, now + 0.1);
+        gain.gain.setValueAtTime(0.05, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
         osc.start(now);
-        osc.stop(now + 0.12);
+        osc.stop(now + 0.1);
       } else if (type === 'success') {
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, now); // C5
-        osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
-        osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
-        gain.gain.setValueAtTime(0.09, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(659.25, now + 0.06);
+        osc.frequency.setValueAtTime(783.99, now + 0.12);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
         osc.start(now);
-        osc.stop(now + 0.28);
+        osc.stop(now + 0.22);
       }
     } catch (e) {
-      // Audio not permitted or supported
+      // Audio not permitted on this gesture, safe fail
     }
   }
 
   // ==========================================================================
-  // Three.js 3D Interactive Brand Nucleus & Platform Orbit Scene
+  // Three.js 3D Interactive Brand Nucleus (Optimized for Mobile Speed)
   // ==========================================================================
   function initThreeHeroScene() {
     const canvas = document.getElementById('threejs-hero-canvas');
@@ -341,26 +342,27 @@
     const parent = canvas.parentElement;
     let width = parent.clientWidth || 500;
     let height = parent.clientHeight || 550;
+    const isMobile = window.innerWidth < 768;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.z = 9.5;
+    camera.position.z = isMobile ? 11.5 : 9.5;
 
+    // Mobile Optimization: Disable antialiasing & cap pixelRatio to 1.0 on phones for buttery 60 FPS
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       alpha: true,
-      antialias: true,
+      antialias: !isMobile,
       powerPreference: 'high-performance'
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isMobile ? 1.0 : Math.min(window.devicePixelRatio, 1.75));
 
-    // Central Brand Nucleus (Multi-layered Icosahedron + Wireframe)
+    // Brand Nucleus
     const nucleusGroup = new THREE.Group();
     scene.add(nucleusGroup);
 
-    // Inner Core Solid
-    const coreGeo = new THREE.IcosahedronGeometry(1.6, 2);
+    const coreGeo = new THREE.IcosahedronGeometry(isMobile ? 1.4 : 1.6, isMobile ? 1 : 2);
     const coreMat = new THREE.MeshPhongMaterial({
       color: 0x4141af,
       emissive: 0x1e1e62,
@@ -372,8 +374,7 @@
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     nucleusGroup.add(coreMesh);
 
-    // Wireframe Glow Layer
-    const wireGeo = new THREE.IcosahedronGeometry(1.62, 2);
+    const wireGeo = new THREE.IcosahedronGeometry(isMobile ? 1.42 : 1.62, isMobile ? 1 : 2);
     const wireMat = new THREE.MeshBasicMaterial({
       color: 0x00f0ff,
       wireframe: true,
@@ -383,12 +384,12 @@
     const wireMesh = new THREE.Mesh(wireGeo, wireMat);
     nucleusGroup.add(wireMesh);
 
-    // Dynamic Orbital Rings
+    // Orbital Rings
     const ringsGroup = new THREE.Group();
     scene.add(ringsGroup);
 
     function createOrbitalRing(radius, tubeRadius, color, rotX, rotY) {
-      const ringGeo = new THREE.TorusGeometry(radius, tubeRadius, 16, 100);
+      const ringGeo = new THREE.TorusGeometry(radius, tubeRadius, 12, isMobile ? 48 : 80);
       const ringMat = new THREE.MeshBasicMaterial({
         color: color,
         transparent: true,
@@ -417,7 +418,7 @@
     ];
 
     platformData.forEach((p) => {
-      const nodeGeo = new THREE.SphereGeometry(0.18, 16, 16);
+      const nodeGeo = new THREE.SphereGeometry(isMobile ? 0.16 : 0.18, 12, 12);
       const nodeMat = new THREE.MeshStandardMaterial({
         color: p.color,
         emissive: p.color,
@@ -435,8 +436,8 @@
       scene.add(nodeMesh);
     });
 
-    // Particle Swarm Cloud
-    const particleCount = 280;
+    // Particle Swarm Cloud (Adaptive density)
+    const particleCount = isMobile ? 70 : 240;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
@@ -447,38 +448,39 @@
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
     const particleMat = new THREE.PointsMaterial({
       color: 0x38bdf8,
-      size: 0.05,
+      size: isMobile ? 0.07 : 0.05,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.55
     });
     const particleCloud = new THREE.Points(particleGeo, particleMat);
     scene.add(particleCloud);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
     scene.add(ambientLight);
 
     const dirLight1 = new THREE.DirectionalLight(0x00f0ff, 1.2);
     dirLight1.position.set(5, 8, 5);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x8b5cf6, 1.0);
+    const dirLight2 = new THREE.DirectionalLight(0x8b5cf6, 0.9);
     dirLight2.position.set(-6, -4, 4);
     scene.add(dirLight2);
 
-    // Mouse Parallax
+    // Mouse Parallax on Desktop
     let targetMouseX = 0;
     let targetMouseY = 0;
     let currentMouseX = 0;
     let currentMouseY = 0;
 
-    window.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      targetMouseX = ((e.clientX - rect.left) / width - 0.5) * 2;
-      targetMouseY = ((e.clientY - rect.top) / height - 0.5) * 2;
-    });
+    if (!isMobile) {
+      window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        targetMouseX = ((e.clientX - rect.left) / width - 0.5) * 2;
+        targetMouseY = ((e.clientY - rect.top) / height - 0.5) * 2;
+      }, { passive: true });
+    }
 
-    // Resize Handler
     function onResize() {
       width = parent.clientWidth || 500;
       height = parent.clientHeight || 550;
@@ -486,47 +488,53 @@
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     }
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize, { passive: true });
 
-    // Animation Loop
+    // Pause rendering when off-screen to maximize mobile GPU & battery efficiency
+    let isCanvasVisible = true;
+    if ('IntersectionObserver' in window && parent) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          isCanvasVisible = entry.isIntersecting;
+        });
+      }, { rootMargin: '80px 0px 80px 0px', threshold: 0 });
+      observer.observe(parent);
+    }
+
+    // Render loop
     let clock = new THREE.Clock();
 
     function animate() {
       requestAnimationFrame(animate);
+      if (!isCanvasVisible) return;
       const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
 
-      // Smooth mouse lerp
-      currentMouseX += (targetMouseX - currentMouseX) * 0.05;
-      currentMouseY += (targetMouseY - currentMouseY) * 0.05;
-
-      // Nucleus subtle rotation & breathing
-      nucleusGroup.rotation.y += 0.4 * delta;
-      nucleusGroup.rotation.x += 0.2 * delta;
-      const breathScale = 1 + Math.sin(elapsedTime * 2.2) * 0.05;
-      nucleusGroup.scale.set(breathScale, breathScale, breathScale);
-
-      // Rings Rotation
-      ring1.rotation.z += 0.3 * delta;
-      ring2.rotation.z -= 0.25 * delta;
-      ring3.rotation.z += 0.2 * delta;
-
-      // Camera parallax tilt
-      camera.position.x = currentMouseX * 1.8;
-      camera.position.y = -currentMouseY * 1.8;
+      if (!isMobile) {
+        currentMouseX += (targetMouseX - currentMouseX) * 0.05;
+        currentMouseY += (targetMouseY - currentMouseY) * 0.05;
+        camera.position.x = currentMouseX * 1.6;
+        camera.position.y = -currentMouseY * 1.6;
+      }
       camera.lookAt(0, 0, 0);
 
-      // Satellite Orbits
+      nucleusGroup.rotation.y += 0.35 * delta;
+      nucleusGroup.rotation.x += 0.18 * delta;
+      const breathScale = 1 + Math.sin(elapsedTime * 2.0) * 0.04;
+      nucleusGroup.scale.set(breathScale, breathScale, breathScale);
+
+      ring1.rotation.z += 0.28 * delta;
+      ring2.rotation.z -= 0.22 * delta;
+      ring3.rotation.z += 0.18 * delta;
+
       satellites.forEach((sat) => {
         const angle = elapsedTime * sat.speed + sat.offset;
         sat.mesh.position.x = Math.cos(angle) * sat.radius;
-        sat.mesh.position.y = Math.sin(angle * 1.3) * (sat.radius * 0.4);
+        sat.mesh.position.y = Math.sin(angle * 1.3) * (sat.radius * 0.38);
         sat.mesh.position.z = Math.sin(angle) * sat.radius;
       });
 
-      // Particle subtle drift
-      particleCloud.rotation.y = elapsedTime * 0.04;
-
+      particleCloud.rotation.y = elapsedTime * 0.03;
       renderer.render(scene, camera);
     }
 
@@ -534,9 +542,11 @@
   }
 
   // ==========================================================================
-  // 3D Card Gyroscope & Mouse Tilt Physics
+  // 3D Card Tilt (Desktop Only - Disabled on touch to prevent touch sticking)
   // ==========================================================================
   function initCard3DTilt() {
+    if (window.matchMedia('(hover: none)').matches) return;
+
     const tiltCards = document.querySelectorAll('[data-tilt="true"]');
     if (!tiltCards.length) return;
 
@@ -555,8 +565,8 @@
         const xPct = mouseX / bounds.width;
         const yPct = mouseY / bounds.height;
 
-        const rotateX = ((yPct - 0.5) * -16).toFixed(2);
-        const rotateY = ((xPct - 0.5) * 16).toFixed(2);
+        const rotateX = ((yPct - 0.5) * -14).toFixed(2);
+        const rotateY = ((xPct - 0.5) * 14).toFixed(2);
 
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
         card.style.setProperty('--mouse-x', `${(xPct * 100).toFixed(1)}%`);
@@ -569,7 +579,7 @@
       }
 
       card.addEventListener('mouseenter', onMouseEnter);
-      card.addEventListener('mousemove', onMouseMove);
+      card.addEventListener('mousemove', onMouseMove, { passive: true });
       card.addEventListener('mouseleave', onMouseLeave);
     });
   }
@@ -592,7 +602,8 @@
     if (!tabButtons.length) return;
 
     tabButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        if (e && e.preventDefault) e.preventDefault();
         const platform = btn.getAttribute('data-platform');
         if (!platform || !PlatformMockups[platform]) return;
 
@@ -601,10 +612,9 @@
 
         playUiSound('swoosh');
 
-        // Animate card transition
         if (cardEl) {
-          cardEl.style.opacity = '0.4';
-          cardEl.style.transform = 'translateY(10px) scale(0.98)';
+          cardEl.style.opacity = '0.5';
+          cardEl.style.transform = 'translateY(6px) scale(0.99)';
         }
 
         setTimeout(() => {
@@ -624,7 +634,7 @@
             cardEl.style.opacity = '1';
             cardEl.style.transform = 'translateY(0) scale(1)';
           }
-        }, 150);
+        }, 120);
       });
     });
   }
@@ -640,7 +650,6 @@
 
     const entityChips = document.querySelectorAll('.sim-chip-btn');
 
-    // Outputs
     const meterConsistency = document.getElementById('meter-consistency');
     const meterEngagement = document.getElementById('meter-engagement');
     const meterRiskShield = document.getElementById('meter-risk-shield');
@@ -658,7 +667,6 @@
       if (platformCountVal) platformCountVal.textContent = `${platforms} ${AppState.lang === 'ar' ? 'منصات' : 'Platforms'}`;
       if (postingFreqVal) postingFreqVal.textContent = `${freq}x ${AppState.lang === 'ar' ? 'أسبوعياً' : '/week'}`;
 
-      // Entity Multipliers
       let baseConsistency = 82;
       let baseEngagement = 190;
       let baseShield = 88;
@@ -676,12 +684,10 @@
         baseShield += 6;
       }
 
-      // Calculation logic
       const consistencyScore = Math.min(99.4, (baseConsistency + (platforms * 1.5) + (freq * 0.8))).toFixed(1);
       const engagementBoost = Math.min(420, (baseEngagement + (platforms * 22) + (freq * 18))).toFixed(0);
       const shieldScore = Math.min(99.8, (baseShield + (platforms * 1.8) + (freq * 0.5))).toFixed(1);
 
-      // Animate progress bars
       if (meterConsistency) meterConsistency.style.width = `${consistencyScore}%`;
       if (meterEngagement) meterEngagement.style.width = `${Math.min(100, engagementBoost / 4)}%`;
       if (meterRiskShield) meterRiskShield.style.width = `${shieldScore}%`;
@@ -703,7 +709,8 @@
     if (postingFreqInput) postingFreqInput.addEventListener('input', calculateMetrics);
 
     entityChips.forEach((chip) => {
-      chip.addEventListener('click', () => {
+      chip.addEventListener('click', (e) => {
+        if (e && e.preventDefault) e.preventDefault();
         entityChips.forEach((c) => c.classList.remove('active'));
         chip.classList.add('active');
         currentEntity = chip.getAttribute('data-entity') || 'gov';
@@ -726,7 +733,6 @@
 
     const dict = I18N[newLang] || I18N['ar'];
 
-    // Update all elements with data-i18n
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.getAttribute('data-i18n');
       if (dict[key]) {
@@ -734,13 +740,11 @@
       }
     });
 
-    // Update Language Toggle Button Text
     const langBtnText = document.getElementById('lang-btn-text');
     if (langBtnText) {
-      langBtnText.textContent = newLang === 'ar' ? 'English' : 'العربية';
+      langBtnText.textContent = newLang === 'ar' ? 'EN' : 'عربي';
     }
 
-    // Refresh Mockups and Simulator
     const activePlatformBtn = document.querySelector('.platform-tab-btn.active');
     if (activePlatformBtn) {
       activePlatformBtn.click();
@@ -750,13 +754,13 @@
   function initLanguageSwitcher() {
     const toggleBtn = document.getElementById('btn-lang-toggle');
     if (toggleBtn) {
-      toggleBtn.addEventListener('click', () => {
+      toggleBtn.addEventListener('click', (e) => {
+        if (e && e.preventDefault) e.preventDefault();
         playUiSound('click');
         const nextLang = AppState.lang === 'ar' ? 'en' : 'ar';
         updateLanguage(nextLang);
       });
     }
-    // Set initial
     updateLanguage(AppState.lang);
   }
 
@@ -778,7 +782,8 @@
     }
 
     if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
+      themeBtn.addEventListener('click', (e) => {
+        if (e && e.preventDefault) e.preventDefault();
         playUiSound('click');
         const nextTheme = AppState.theme === 'dark' ? 'light' : 'dark';
         applyTheme(nextTheme);
@@ -802,7 +807,8 @@
     }
 
     if (soundBtn) {
-      soundBtn.addEventListener('click', () => {
+      soundBtn.addEventListener('click', (e) => {
+        if (e && e.preventDefault) e.preventDefault();
         AppState.soundEnabled = !AppState.soundEnabled;
         localStorage.setItem('a2z_sound', AppState.soundEnabled);
         updateSoundUi();
@@ -810,6 +816,56 @@
       });
     }
     updateSoundUi();
+  }
+
+  // ==========================================================================
+  // Mobile Off-Canvas Navigation Drawer Controller
+  // ==========================================================================
+  function initMobileDrawer() {
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const drawerBackdrop = document.getElementById('mobile-drawer');
+    const closeBtn = document.getElementById('drawer-close-btn');
+    const drawerLinks = document.querySelectorAll('.drawer-nav-link');
+
+    if (!menuBtn || !drawerBackdrop) return;
+
+    function openDrawer(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      playUiSound('click');
+      drawerBackdrop.classList.add('open');
+      drawerBackdrop.setAttribute('aria-hidden', 'false');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      drawerBackdrop.classList.remove('open');
+      drawerBackdrop.setAttribute('aria-hidden', 'true');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+
+    drawerBackdrop.addEventListener('click', (e) => {
+      if (e.target === drawerBackdrop) closeDrawer(e);
+    });
+
+    const drawerActionables = drawerBackdrop.querySelectorAll('.drawer-nav-link, .btn-install-trigger, a[href^="#"]');
+
+    drawerActionables.forEach((item) => {
+      item.addEventListener('click', () => {
+        closeDrawer();
+      });
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawerBackdrop.classList.contains('open')) {
+        closeDrawer(e);
+      }
+    });
   }
 
   // ==========================================================================
@@ -823,15 +879,16 @@
     const iosGuide = document.getElementById('pwa-ios-guide');
     const offlineBanner = document.getElementById('offline-banner');
 
-    // Register Service Worker
+    // Register Service Worker with forced update
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
           .then((reg) => {
-            console.log('[PWA] Service Worker registered with scope:', reg.scope);
+            reg.update();
+            console.log('[PWA] Service Worker active');
           })
           .catch((err) => {
-            console.warn('[PWA] Service Worker registration failed:', err);
+            console.warn('[PWA] Service Worker reg failed:', err);
           });
       });
     }
@@ -847,54 +904,73 @@
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     if (isStandalone) {
       installButtons.forEach((b) => {
-        b.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>مثبت كتطبيق ✓</span>';
+        b.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span class="install-text-full">مثبت كتطبيق ✓</span>';
         b.style.pointerEvents = 'none';
       });
     }
 
-    // Is iOS Safari check
-    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    // Accurate iOS detection
+    const isIos = (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
 
-    function openModal() {
+    function openModal(e) {
+      if (e && e.preventDefault) e.preventDefault();
       playUiSound('click');
-      if (modalBackdrop) modalBackdrop.classList.add('open');
+      if (modalBackdrop) {
+        modalBackdrop.classList.add('open');
+        modalBackdrop.setAttribute('aria-hidden', 'false');
+      }
       if (isIos && iosGuide) {
         iosGuide.style.display = 'block';
         if (btnModalInstall) btnModalInstall.style.display = 'none';
+      } else {
+        if (iosGuide) iosGuide.style.display = 'none';
+        if (btnModalInstall) btnModalInstall.style.display = 'inline-flex';
       }
     }
 
-    function closeModal() {
-      if (modalBackdrop) modalBackdrop.classList.remove('open');
+    function closeModal(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (modalBackdrop) {
+        modalBackdrop.classList.remove('open');
+        modalBackdrop.setAttribute('aria-hidden', 'true');
+      }
     }
 
-    installButtons.forEach((btn) => btn.addEventListener('click', openModal));
+    installButtons.forEach((btn) => {
+      btn.addEventListener('click', openModal);
+    });
 
     if (btnModalCancel) btnModalCancel.addEventListener('click', closeModal);
     if (modalBackdrop) {
       modalBackdrop.addEventListener('click', (e) => {
-        if (e.target === modalBackdrop) closeModal();
+        if (e.target === modalBackdrop) closeModal(e);
       });
     }
 
     if (btnModalInstall) {
-      btnModalInstall.addEventListener('click', async () => {
+      btnModalInstall.addEventListener('click', async (e) => {
+        if (e && e.preventDefault) e.preventDefault();
         playUiSound('click');
         if (AppState.deferredInstallPrompt) {
-          AppState.deferredInstallPrompt.prompt();
-          const { outcome } = await AppState.deferredInstallPrompt.userChoice;
-          console.log('[PWA] User response to install:', outcome);
-          AppState.deferredInstallPrompt = null;
+          try {
+            AppState.deferredInstallPrompt.prompt();
+            const { outcome } = await AppState.deferredInstallPrompt.userChoice;
+            console.log('[PWA] User response outcome:', outcome);
+            AppState.deferredInstallPrompt = null;
+          } catch (err) {
+            console.warn(err);
+          }
           closeModal();
         } else {
-          // If native prompt not available, explain addition
-          alert(AppState.lang === 'ar' ? 'يمكنك تثبيت الموقع كتطبيق من خلال خيارات المتصفح (تثبيت التطبيق أو إضافة إلى الشاشة الرئيسية)' : 'You can install this app from your browser menu ("Install app" or "Add to Home Screen").');
+          alert(AppState.lang === 'ar' 
+            ? 'لتثبيت التطبيق على جهازك:\n- على أندرويد/كروم: اضغط على الثلاث نقاط (⋮) في أعلى المتصفح ثم اختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية".\n- على آيفون: اضغط زر المشاركة ثم "إضافة إلى الشاشة الرئيسية".' 
+            : 'To install on your device:\n- On Android/Chrome: Tap (⋮) then select "Install app" or "Add to Home Screen".\n- On iPhone: Tap Share then "Add to Home Screen".');
           closeModal();
         }
       });
     }
 
-    // Offline / Online Detection
+    // Offline / Online Banner
     function handleConnectionChange() {
       if (offlineBanner) {
         if (!navigator.onLine) {
@@ -904,8 +980,8 @@
         }
       }
     }
-    window.addEventListener('online', handleConnectionChange);
-    window.addEventListener('offline', handleConnectionChange);
+    window.addEventListener('online', handleConnectionChange, { passive: true });
+    window.addEventListener('offline', handleConnectionChange, { passive: true });
     handleConnectionChange();
   }
 
@@ -918,11 +994,11 @@
       const btn = item.querySelector('.faq-question-btn');
       if (!btn) return;
 
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        if (e && e.preventDefault) e.preventDefault();
         const isActive = item.classList.contains('active');
         playUiSound('click');
 
-        // Close other items
         faqItems.forEach((other) => {
           if (other !== item) {
             other.classList.remove('active');
@@ -937,6 +1013,30 @@
         } else {
           item.classList.add('active');
           btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  }
+
+  // ==========================================================================
+  // Mobile App Dock Smooth Navigation
+  // ==========================================================================
+  function initMobileDock() {
+    const dockItems = document.querySelectorAll('.dock-item');
+    if (!dockItems.length) return;
+
+    dockItems.forEach((item) => {
+      item.addEventListener('click', (e) => {
+        dockItems.forEach((d) => d.classList.remove('active'));
+        item.classList.add('active');
+        playUiSound('click');
+        const href = item.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       });
     });
@@ -959,7 +1059,7 @@
       }
 
       if (header) {
-        if (winScroll > 40) {
+        if (winScroll > 30) {
           header.classList.add('scrolled');
         } else {
           header.classList.remove('scrolled');
@@ -989,7 +1089,7 @@
 
     if (whatsappBtn) {
       whatsappBtn.addEventListener('click', (e) => {
-        e.preventDefault();
+        if (e && e.preventDefault) e.preventDefault();
         playUiSound('click');
         window.open(buildWhatsAppUrl(), '_blank');
       });
@@ -1003,49 +1103,6 @@
         form.reset();
       });
     }
-  // ==========================================================================
-  // Mobile Off-Canvas Navigation Drawer Controller
-  // ==========================================================================
-  function initMobileDrawer() {
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const drawerBackdrop = document.getElementById('mobile-drawer');
-    const closeBtn = document.getElementById('drawer-close-btn');
-    const drawerLinks = document.querySelectorAll('.drawer-nav-link');
-
-    if (!menuBtn || !drawerBackdrop) return;
-
-    function openDrawer() {
-      playUiSound('click');
-      drawerBackdrop.classList.add('open');
-      drawerBackdrop.setAttribute('aria-hidden', 'false');
-      menuBtn.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeDrawer() {
-      drawerBackdrop.classList.remove('open');
-      drawerBackdrop.setAttribute('aria-hidden', 'true');
-      menuBtn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-
-    menuBtn.addEventListener('click', openDrawer);
-    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-    drawerBackdrop.addEventListener('click', (e) => {
-      if (e.target === drawerBackdrop) closeDrawer();
-    });
-
-    drawerLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        closeDrawer();
-      });
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && drawerBackdrop.classList.contains('open')) {
-        closeDrawer();
-      }
-    });
   }
 
   // ==========================================================================
@@ -1061,6 +1118,7 @@
     initSoundToggle();
     initPwaController();
     initMobileDrawer();
+    initMobileDock();
     initFaqAccordion();
     initScrollDynamics();
     initConsultationForm();
