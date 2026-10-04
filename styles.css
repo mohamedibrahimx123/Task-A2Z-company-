@@ -493,10 +493,153 @@ body[dir="ltr"] {
 
 .mobile-menu-toggle {
   display: none;
-  background: none;
-  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border);
+  background: var(--c-surface-card);
   color: var(--c-text-primary);
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  font-size: 1.1rem;
+  transition: all var(--trans-fast);
+  backdrop-filter: blur(8px);
+  flex-shrink: 0;
+}
+.mobile-menu-toggle:hover {
+  background: var(--c-surface-hover);
+  color: var(--brand-secondary);
+  border-color: var(--c-border-focus);
+}
+
+/* ==========================================================================
+   Mobile Off-Canvas Navigation Drawer
+   ========================================================================== */
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 7, 18, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 10002;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+.mobile-drawer-backdrop.open {
+  display: flex;
+  opacity: 1;
+}
+
+.mobile-drawer-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 84%;
+  max-width: 340px;
+  background: var(--c-surface);
+  border-left: 1px solid var(--c-border-card);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: translateX(100%);
+  transition: transform 0.35s var(--ease-spring);
+  box-shadow: -12px 0 45px rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+  z-index: 10003;
+}
+[dir="ltr"] .mobile-drawer-panel {
+  right: auto;
+  left: 0;
+  border-left: none;
+  border-right: 1px solid var(--c-border-card);
+  transform: translateX(-100%);
+  box-shadow: 12px 0 45px rgba(0, 0, 0, 0.6);
+}
+.mobile-drawer-backdrop.open .mobile-drawer-panel {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--c-border);
+  margin-bottom: 18px;
+}
+
+.drawer-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.drawer-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  background: var(--c-surface-card);
+  border: 1px solid var(--c-border);
+  color: var(--c-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+.drawer-close-btn:hover {
+  background: var(--c-surface-hover);
+  color: var(--brand-secondary);
+}
+
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.drawer-nav-link {
+  text-decoration: none;
+  color: var(--c-text-primary);
+  font-size: 0.98rem;
+  font-weight: 700;
+  padding: 12px 16px;
+  border-radius: var(--r-md);
+  background: var(--c-surface-card);
+  border: 1px solid var(--c-border);
+  transition: all var(--trans-fast);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.drawer-nav-link i {
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  transition: transform var(--trans-fast);
+}
+[dir="ltr"] .drawer-nav-link i {
+  transform: rotate(180deg);
+}
+.drawer-nav-link:hover,
+.drawer-nav-link.active {
+  background: linear-gradient(135deg, rgba(65, 65, 175, 0.35), rgba(14, 165, 201, 0.2));
+  border-color: var(--brand-secondary);
+  color: var(--brand-cyan);
+}
+
+.drawer-footer {
+  padding-top: 20px;
+  border-top: 1px solid var(--c-border);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* ==========================================================================
@@ -1838,9 +1981,11 @@ textarea.input-control {
 }
 
 /* ==========================================================================
-   Responsive Breakpoints
+   Comprehensive Responsive Breakpoints (All Mobiles & Tablets Guaranteed)
    ========================================================================== */
-@media (max-width: 1200px) and (min-width: 860px) {
+
+/* Tablets Landscape & Medium Screens (992px to 1200px) */
+@media (max-width: 1200px) and (min-width: 992px) {
   .nav-menu {
     gap: 12px;
   }
@@ -1848,15 +1993,34 @@ textarea.input-control {
     font-size: 0.82rem;
   }
   .brand-badge {
-    display: none;
+    display: none !important;
   }
   .btn-install-app {
-    padding: 6px 10px;
+    padding: 6px 11px;
     font-size: 0.78rem;
   }
 }
 
-@media (max-width: 1024px) {
+/* Tablets Portrait & Medium Devices (< 992px) */
+@media (max-width: 991px) {
+  .nav-menu {
+    display: none !important;
+  }
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+  .brand-badge {
+    display: none !important;
+  }
+  .hide-on-mobile {
+    display: none !important;
+  }
+  .mobile-app-dock {
+    display: flex !important;
+  }
+  body {
+    padding-bottom: 74px;
+  }
   .hero-grid {
     grid-template-columns: 1fr;
     text-align: center;
@@ -1866,7 +2030,7 @@ textarea.input-control {
   }
   .hero-visual-stage {
     order: 2;
-    height: 440px;
+    height: 420px;
   }
   .hero-cta-group {
     justify-content: center;
@@ -1891,34 +2055,111 @@ textarea.input-control {
   }
 }
 
-@media (max-width: 860px) {
-  .nav-menu {
-    display: none;
+/* All Mobile Phones (iPhone 11 Pro Max [414px], iPhone 12/13/14/15 [390px], Samsung Galaxy, Pixel, etc. < 640px) */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+  .site-header {
+    padding: 8px 0 !important;
+  }
+  .brand-logo-img {
+    height: 30px !important;
+    max-width: 100px !important;
+  }
+  .nav-actions {
+    gap: 6px !important;
+  }
+  .btn-icon {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 0.85rem !important;
+  }
+  .btn-lang-toggle {
+    padding: 6px 10px !important;
+    font-size: 0.78rem !important;
   }
   .mobile-menu-toggle {
-    display: flex;
+    width: 34px !important;
+    height: 34px !important;
   }
-  .mobile-app-dock {
-    display: flex;
+  /* On phones: show install app as sleek icon-only button so navbar NEVER overflows */
+  .btn-install-app {
+    width: 34px !important;
+    height: 34px !important;
+    padding: 0 !important;
+    border-radius: var(--r-md) !important;
+    justify-content: center !important;
   }
-  body {
-    padding-bottom: 70px;
+  .btn-install-app .install-text-full {
+    display: none !important;
   }
+  .btn-install-app i {
+    font-size: 0.95rem !important;
+    margin: 0 !important;
+  }
+  
   .hero-title {
-    font-size: 1.85rem;
+    font-size: 1.7rem !important;
+    line-height: 1.35 !important;
+  }
+  .statement-text {
+    font-size: 0.92rem !important;
+  }
+  .hero-stats-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+  .stat-num {
+    font-size: 1.45rem !important;
+  }
+  .stat-label {
+    font-size: 0.74rem !important;
   }
   .footer-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
   }
   .footer-bottom {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
+    flex-direction: column !important;
+    gap: 12px !important;
+    text-align: center !important;
   }
   .form-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
   .form-field-full {
-    grid-column: span 1;
+    grid-column: span 1 !important;
+  }
+  .form-actions-row {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .form-actions-row button,
+  .form-actions-row a {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* Very Small Mobile Screens (iPhone SE, 320px - 360px) */
+@media (max-width: 360px) {
+  .brand-logo-img {
+    height: 26px !important;
+    max-width: 80px !important;
+  }
+  .nav-actions {
+    gap: 4px !important;
+  }
+  .btn-icon,
+  .btn-install-app,
+  .mobile-menu-toggle {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  .btn-lang-toggle {
+    padding: 5px 8px !important;
+    font-size: 0.72rem !important;
   }
 }

@@ -182,8 +182,8 @@
 
         <!-- Executive Controls & Actions -->
         <div class="nav-actions">
-          <!-- Audio Synthesizer Toggle -->
-          <button id="btn-sound-toggle" class="btn-icon" aria-label="تبديل المؤثرات الصوتية" title="تبديل المؤثرات الصوتية التفاعلية">
+          <!-- Audio Synthesizer Toggle (Desktop only) -->
+          <button id="btn-sound-toggle" class="btn-icon hide-on-mobile" aria-label="تبديل المؤثرات الصوتية" title="المؤثرات الصوتية">
             <i id="sound-icon" class="fa-solid fa-volume-high"></i>
           </button>
 
@@ -195,18 +195,77 @@
           <!-- Bilingual Switcher (Arabic <-> English) -->
           <button id="btn-lang-toggle" class="btn-lang-toggle" aria-label="تبديل اللغة">
             <i class="fa-solid fa-globe"></i>
-            <span id="lang-btn-text">English</span>
+            <span id="lang-btn-text">EN</span>
           </button>
 
           <!-- PWA Install Button -->
           <button class="btn-install-app btn-install-trigger" aria-label="تثبيت التطبيق على جهازك">
             <i class="fa-solid fa-download"></i>
-            <span data-i18n="install_app">تثبيت التطبيق 📲</span>
+            <span class="install-text-full" data-i18n="install_app">تثبيت التطبيق 📲</span>
+          </button>
+
+          <!-- Mobile Menu Hamburger Button -->
+          <button id="mobile-menu-btn" class="mobile-menu-toggle" aria-label="فتح القائمة الرئيسية" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
           </button>
         </div>
       </div>
     </div>
   </header>
+
+  <!-- Mobile Off-Canvas Drawer for all phones and tablets -->
+  <div id="mobile-drawer" class="mobile-drawer-backdrop" aria-hidden="true">
+    <div class="mobile-drawer-panel">
+      <div class="drawer-header">
+        <img src="./a2z-logo.png" alt="A2Z Logo" class="drawer-logo" width="110" height="34" />
+        <button id="drawer-close-btn" class="drawer-close-btn" aria-label="إغلاق القائمة">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <nav class="drawer-nav">
+        <a href="#hero" class="drawer-nav-link" data-i18n="nav_home">
+          <span>الرئيسية</span>
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <a href="#methodology" class="drawer-nav-link" data-i18n="nav_methodology">
+          <span>المنهجية الاستراتيجية</span>
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <a href="#platforms" class="drawer-nav-link" data-i18n="nav_platforms">
+          <span>منظومة المنصات الرقمية</span>
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <a href="#simulator" class="drawer-nav-link" data-i18n="nav_simulator">
+          <span>محاكي الأثر والصورة الذهنية</span>
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <a href="#cases" class="drawer-nav-link" data-i18n="nav_cases">
+          <span>قصص النجاح والأثر</span>
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <a href="#faq" class="drawer-nav-link" data-i18n="nav_faq">
+          <span>الأسئلة الشائعة</span>
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <a href="#contact" class="drawer-nav-link" data-i18n="nav_contact">
+          <span>ابدأ تأثيرك اليوم</span>
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+      </nav>
+
+      <div class="drawer-footer">
+        <button class="btn-primary-glow btn-install-trigger" style="width: 100%; justify-content: center; padding: 12px 16px; font-size: 0.88rem; margin-bottom: 12px;">
+          <i class="fa-solid fa-download"></i>
+          <span data-i18n="install_app">تثبيت التطبيق على جهازك 📲</span>
+        </button>
+        <a href="#contact" class="btn-whatsapp-direct" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 0.86rem; text-decoration: none;">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>حجز استشارة استراتيجية</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
   <main id="main-content" role="main">
 

@@ -1003,6 +1003,49 @@
         form.reset();
       });
     }
+  // ==========================================================================
+  // Mobile Off-Canvas Navigation Drawer Controller
+  // ==========================================================================
+  function initMobileDrawer() {
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const drawerBackdrop = document.getElementById('mobile-drawer');
+    const closeBtn = document.getElementById('drawer-close-btn');
+    const drawerLinks = document.querySelectorAll('.drawer-nav-link');
+
+    if (!menuBtn || !drawerBackdrop) return;
+
+    function openDrawer() {
+      playUiSound('click');
+      drawerBackdrop.classList.add('open');
+      drawerBackdrop.setAttribute('aria-hidden', 'false');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      drawerBackdrop.classList.remove('open');
+      drawerBackdrop.setAttribute('aria-hidden', 'true');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', (e) => {
+      if (e.target === drawerBackdrop) closeDrawer();
+    });
+
+    drawerLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        closeDrawer();
+      });
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawerBackdrop.classList.contains('open')) {
+        closeDrawer();
+      }
+    });
   }
 
   // ==========================================================================
@@ -1017,6 +1060,7 @@
     initThemeSwitcher();
     initSoundToggle();
     initPwaController();
+    initMobileDrawer();
     initFaqAccordion();
     initScrollDynamics();
     initConsultationForm();
