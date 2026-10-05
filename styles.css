@@ -107,6 +107,7 @@ html {
   scroll-padding-top: 80px;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  background-color: var(--c-bg, #070712);
 }
 
 body {
