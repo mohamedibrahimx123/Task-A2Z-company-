@@ -317,18 +317,49 @@ button, a, input, select, textarea, [role="button"],
   left: 0;
   right: 0;
   z-index: 10000;
-  padding: 14px 0;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 14px);
+  padding-bottom: 14px;
+  padding-left: calc(env(safe-area-inset-left, 0px) + 16px);
+  padding-right: calc(env(safe-area-inset-right, 0px) + 16px);
   transition: all var(--trans-normal);
   pointer-events: auto;
 }
 
 .site-header.scrolled {
-  padding: 10px 0;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 10px);
+  padding-bottom: 10px;
   background: var(--c-surface-glass);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--c-border);
   box-shadow: var(--shadow-sm);
+}
+
+/* Standalone / PWA installed App mode */
+@media all and (display-mode: standalone), (display-mode: fullscreen) {
+  .site-header {
+    padding-top: calc(env(safe-area-inset-top, 40px) + 14px) !important;
+    padding-bottom: 14px !important;
+  }
+  .site-header.scrolled {
+    padding-top: calc(env(safe-area-inset-top, 40px) + 10px) !important;
+    padding-bottom: 10px !important;
+  }
+  .btn-install-app {
+    display: none !important;
+  }
+}
+
+.is-standalone-app .site-header {
+  padding-top: calc(env(safe-area-inset-top, 40px) + 14px) !important;
+  padding-bottom: 14px !important;
+}
+.is-standalone-app .site-header.scrolled {
+  padding-top: calc(env(safe-area-inset-top, 40px) + 10px) !important;
+  padding-bottom: 10px !important;
+}
+.is-standalone-app .btn-install-app {
+  display: none !important;
 }
 
 .nav-wrapper {
@@ -1247,8 +1278,9 @@ button, a, input, select, textarea, [role="button"],
 
 .mockup-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 16px;
   margin-bottom: 20px;
 }
 
@@ -1256,41 +1288,95 @@ button, a, input, select, textarea, [role="button"],
   display: flex;
   align-items: center;
   gap: 14px;
+  flex: 1;
+  min-width: 0;
 }
 
 .mockup-avatar {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  max-width: 52px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
-  padding: 3px;
+  padding: 2.5px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(14, 165, 201, 0.25);
 }
 
-.mockup-avatar img {
+.mockup-avatar-inner {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: cover;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  overflow: hidden;
+}
+
+.mockup-avatar-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.avatar-platform-badge {
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  border: 2px solid var(--c-surface);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s ease;
+}
+[dir="rtl"] .avatar-platform-badge {
+  left: -2px;
+  right: auto;
+}
+[dir="ltr"] .avatar-platform-badge {
+  right: -2px;
+  left: auto;
+}
+
+.mockup-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
 }
 
 .mockup-user-info h4 {
-  font-size: 1.02rem;
+  font-size: 1.04rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   gap: 6px;
+  margin: 0;
+  line-height: 1.35;
+  color: var(--c-text-primary);
 }
 
 .verified-badge {
   color: var(--brand-cyan);
   font-size: 0.95rem;
+  flex-shrink: 0;
 }
 
 .mockup-handle {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--c-text-muted);
   font-family: var(--font-en);
 }
@@ -1299,13 +1385,16 @@ button, a, input, select, textarea, [role="button"],
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: var(--r-pill);
   background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.35);
   color: var(--brand-emerald);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
 }
 
 .mockup-body {
