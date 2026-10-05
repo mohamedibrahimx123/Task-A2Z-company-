@@ -60,6 +60,73 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="./styles.css" />
 
+  <!-- PWA Safe-Area Fix: يدفع الهيدر تحت شريط الحالة (الساعة/البطارية) في وضع Add to Home Screen -->
+  <style id="pwa-safe-area-fix">
+    :root {
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --standalone-min-top: 0px;
+    }
+
+    /* الموبايل (حتى في المتصفح العادي): نحافظ على الـ safe-area بدل ما نمسحها */
+    @media (max-width: 640px) {
+      .site-header {
+        padding-top: calc(var(--safe-top) + 8px) !important;
+        padding-bottom: 8px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .site-header.scrolled {
+        padding-top: calc(var(--safe-top) + 6px) !important;
+        padding-bottom: 6px !important;
+      }
+    }
+
+    /* وضع التطبيق المثبّت (PWA) */
+    @media all and (display-mode: standalone), (display-mode: fullscreen) {
+      :root { --standalone-min-top: 44px; }
+      .site-header,
+      .site-header.scrolled {
+        padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 12px) !important;
+        padding-bottom: 12px !important;
+      }
+      .site-header.scrolled {
+        padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 8px) !important;
+        padding-bottom: 8px !important;
+      }
+      html { scroll-padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 70px) !important; }
+      .hero-section { padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 110px) !important; }
+      .mobile-drawer-panel { padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 16px) !important; }
+      .btn-install-app { display: none !important; }
+    }
+
+    /* نفس الشيء لو الكلاس اتضاف بالـ JS (iOS: navigator.standalone) */
+    .is-standalone-app { --standalone-min-top: 44px; }
+    .is-standalone-app .site-header,
+    .is-standalone-app .site-header.scrolled {
+      padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 12px) !important;
+      padding-bottom: 12px !important;
+    }
+    .is-standalone-app .site-header.scrolled {
+      padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 8px) !important;
+      padding-bottom: 8px !important;
+    }
+    html.is-standalone-app { scroll-padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 70px); }
+    .is-standalone-app .hero-section { padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 110px) !important; }
+    .is-standalone-app .mobile-drawer-panel { padding-top: calc(max(var(--safe-top), var(--standalone-min-top)) + 16px) !important; }
+    .is-standalone-app .btn-install-app { display: none !important; }
+  </style>
+  <script>
+    // كشف وضع الـ standalone (iOS + باقي المتصفحات) وإضافة الكلاس مبكراً قبل الرسم
+    (function () {
+      try {
+        var standalone = window.navigator.standalone === true ||
+          (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+        if (standalone) document.documentElement.classList.add('is-standalone-app');
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Schema.org Structured Data (JSON-LD) for Elite SEO -->
   <script type="application/ld+json">
   {
