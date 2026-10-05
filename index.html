@@ -272,18 +272,79 @@
       var splash = document.getElementById('appSplash');
       if (!splash) return;
       var root = document.documentElement;
-      if (!root.classList.contains('show-splash')) { splash.remove(); return; }
-      var MIN_MS = 1600, start = Date.now(), done = false;
+      var MIN_MS = 1400; // الحد الأدنى لضمان انسيابية تجربة الفتح
+      var start = Date.now();
+      var done = false;
+
       function hide() {
-        if (done) return; done = true;
+        if (done) return;
+        done = true;
         splash.classList.add('hide');
         root.classList.remove('show-splash');
-        setTimeout(function () { splash.remove(); }, 700);
+        setTimeout(function () {
+          if (splash && splash.parentNode) splash.remove();
+        }, 700);
       }
-      function ready() { setTimeout(hide, Math.max(0, MIN_MS - (Date.now() - start))); }
-      if (document.readyState === 'complete') ready();
-      else window.addEventListener('load', ready);
-      setTimeout(hide, 5000); // حد أقصى
+
+      // 1. فك تشفير واكتمال تحميل كافة الصور الرئيسية في الصفحة لتجنب ظهور أي عنصر بشكل غير مكتمل
+      function ensureImagesLoaded() {
+        var imgs = Array.from(document.querySelectorAll('img'));
+        var promises = imgs.map(function (img) {
+          if (img.complete && img.naturalWidth !== 0) {
+            return Promise.resolve();
+          }
+          if (img.decode) {
+            return img.decode().catch(function () { return Promise.resolve(); });
+          }
+          return new Promise(function (res) {
+            img.addEventListener('load', res, { once: true });
+            img.addEventListener('error', res, { once: true });
+          });
+        });
+        return Promise.all(promises);
+      }
+
+      // 2. الانتظار لدورتي رسم بالمتصفح (Double RAF) لضمان انتهاء المعالجة الرسومية والـ GPU Paint
+      function waitForPaint() {
+        return new Promise(function (resolve) {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(resolve);
+          });
+        });
+      }
+
+      // 3. التأكد من جاهزية واستقرار الخطوط العربية والإنجليزية
+      function ensureFontsLoaded() {
+        if (document.fonts && document.fonts.ready) {
+          return document.fonts.ready.catch(function () { return Promise.resolve(); });
+        }
+        return Promise.resolve();
+      }
+
+      // التحقق الشامل من اكتمال الرندر الحقيقي قبل إخفاء سبلاش سكرين
+      function verifyFullRenderAndHide() {
+        var elapsed = Date.now() - start;
+        var remainingTime = Math.max(0, MIN_MS - elapsed);
+
+        Promise.all([
+          ensureFontsLoaded(),
+          ensureImagesLoaded(),
+          waitForPaint()
+        ]).then(function () {
+          setTimeout(hide, remainingTime);
+        }).catch(function () {
+          setTimeout(hide, remainingTime);
+        });
+      }
+
+      if (document.readyState === 'complete') {
+        verifyFullRenderAndHide();
+      } else {
+        window.addEventListener('load', verifyFullRenderAndHide, { once: true });
+      }
+
+      // شبكة أمان لحماية تجربة المستخدم (6 ثوانٍ حد أقصى)
+      setTimeout(hide, 6000);
     })();
   </script>
 
