@@ -2271,3 +2271,34 @@ textarea.input-control {
     font-size: 0.72rem !important;
   }
 }
+
+
+/* ==========================================================================
+   Fix: منع تمدد الصفحة أفقياً على الموبايل (كان بيزحزح المحتوى لليمين)
+   السبب: .mockup-identity-tag (nowrap) كانت بتوسّع عمود الـ grid لـ 482px
+   ========================================================================== */
+html, body { max-width: 100%; overflow-x: hidden; }
+@supports (overflow: clip) {
+  html, body { overflow-x: clip; }
+}
+.hero-grid > *,
+.methodology-grid > *,
+.ecosystem-container > *,
+.simulator-grid > *,
+.cases-grid > *,
+.footer-grid > *,
+.form-grid > * { min-width: 0; }
+
+.mockup-header { flex-wrap: wrap; }
+.mockup-identity-tag { white-space: normal; }
+
+@media (max-width: 640px) {
+  .live-mockup-card { padding: 20px; }
+  .mockup-header { gap: 10px; }
+  .mockup-identity-tag { font-size: 0.72rem; padding: 5px 10px; }
+  .mockup-body { font-size: 1rem; }
+  .platform-tab-btn { padding: 14px 16px; }
+}
+@media (max-width: 991px) {
+  .floating-overlay-card { max-width: calc(100vw - 32px); }
+}
