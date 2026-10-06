@@ -1,5 +1,5 @@
-// Service Worker for A2Z Media Progressive Web App - Version 3.1.0
-const CACHE_NAME = 'a2z-media-cache-v3.1.0';
+// Service Worker for A2Z Media Progressive Web App - Version 4.0.0
+const CACHE_NAME = 'a2z-media-cache-v4.0.0';
 const STATIC_ASSETS = [
   './',
   './index.html',
